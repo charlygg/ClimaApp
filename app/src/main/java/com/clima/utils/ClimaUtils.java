@@ -13,6 +13,9 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Scanner;
 
 /**
@@ -24,10 +27,11 @@ public class ClimaUtils {
     private static final String URL_API = "https://api.openweathermap.org/data/2.5/weather?";
     private static final String APP_ID = "appid=24985931b186aae046292154f6109b65" ;
     private static final String TEMPERATURE_METRIC_CELCIUS = "units=metric";
+    private static final String LANG = "lang=es";
     private static final String CITY_ID_URL = "id=4726206";
 
     public static URL buildUrl(){
-        Uri uri = Uri.parse(URL_API + CITY_ID_URL+ "&" + APP_ID + "&" + TEMPERATURE_METRIC_CELCIUS);
+        Uri uri = Uri.parse(URL_API + CITY_ID_URL+ "&" + APP_ID + "&" + TEMPERATURE_METRIC_CELCIUS + "&" + LANG);
         Log.d("ClimaUtils > buildUrl", uri.toString());
         URL url = null;
         try{
@@ -62,6 +66,16 @@ public class ClimaUtils {
         } finally {
             httpURLConnection.disconnect();
         }
+    }
+
+    public String getImage(String icon){
+        return String.format("https://openweathermap.org/img/wn/%s.png", icon);
+    }
+
+    public static String getDateNow(){
+        DateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy HH:mm");
+        Date date = new Date();
+        return dateFormat.format(date);
     }
 
 }
